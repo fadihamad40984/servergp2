@@ -1,11 +1,9 @@
-# server.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
-# بدل latest_command، نستخدم قائمة تخزين مؤقتة للأوامر
 command_queue = []
 
 @app.route('/command', methods=['POST'])
@@ -21,7 +19,6 @@ def handle_command():
 
 @app.route('/command', methods=['GET'])
 def get_commands():
-    # نرجّع كل الأوامر ثم نفرغ القائمة
     cmds = list(command_queue)
     command_queue.clear()
     print(f"Sending {len(cmds)} command(s) to client")
@@ -32,5 +29,4 @@ def get_status():
     return jsonify(status='running'), 200
 
 if __name__ == '__main__':
-    # تشغيل على كل الواجهات على بورت 5000
     app.run(host='0.0.0.0', port=5000)
